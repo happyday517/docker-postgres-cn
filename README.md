@@ -4,20 +4,22 @@ docker postgres with zh-cn.UTF-8 locale
 docker-compose sample
 
 ```
-version: "3"
 services:
-  db:
-    image: postgres-cn
+  postgres:
+    image: postgres
     container_name: postgres
     restart: always
-    volumes:
-      - "./data:/var/lib/postgresql/data/pgdata"
     ports:
-      - "5432:5432"
+      - '5432:5432'
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+      # postgres version >= 18时
+      # ./db_data:/var/lib/postgresql
     environment:
-      POSTGRES_DB: root
-      POSTGRES_INITDB_ARGS: "-E UTF8 -k --locale=zh_CN.UTF8 --lc-messages=en_US.UTF8"
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: strongPassW@rd
-      PGDATA: "/var/lib/postgresql/data/pgdata"
+      TZ: Asia/Shanghai
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=zh_CN.UTF8 --lc-messages=en_US.UTF8"
+      # POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=zh_CN.UTF8"
+      POSTGRES_DB: test
+      POSTGRES_USER : user
+      POSTGRES_PASSWORD: pass
 ```
